@@ -52,6 +52,7 @@ defmodule Issues.CLI do
       |> convert_to_list_of_hashdicts
       |> sort_into_ascending_order
       |> Enum.take(count)
+      |> print_table_for_columns(["number", "created_at", "title"])
   end
 
   def decode_response({ :ok, body }), do: body
@@ -66,4 +67,49 @@ defmodule Issues.CLI do
 
   def sort_into_ascending_order(list_of_issues),
     do: list_of_issues |> Enum.sort(&(&1["created_at"] <= &2["created_at"]))
+
+  def print_table_for_columns(list_of_issues, list_of_columns) do
+    indent_one_space = fn v -> " #{v}" end
+
+    extract_column_values = fn hashdict ->
+      hashdict
+      |> HashDict.take(list_of_columns)
+      |> HashDict.values
+      |> Enum.map(indent_one_space)
+    end
+
+    find_length_at_index = fn list, index ->
+      Enum.at(list, index)
+        |> to_string
+        |> String.length
+    end
+
+    generate_heading_line = fn widths ->
+      widths
+        |> Enum.map(&String.duplicate("-", &1))
+        |> Enum.join("+")
+    end
+
+    rows =
+      list_of_issues
+      |> Enum.map(extract_column_values)
+      |> Enum.into([ list_of_columns |> Enum.map(indent_one_space) ])
+
+    widths =
+      for col_index <- (0..(length(list_of_columns) - 1)) do
+        rows
+          |> Enum.map(&find_length_at_index.(&1, col_index))
+          |> Enum.max
+      end |> Enum.map(&(&1 + 1))
+
+    table_rows = for row <- rows do
+      for { text, width } <- row |> Enum.zip(widths) do
+        String.ljust(text, width)
+      end
+    end |> List.insert_at(1, [generate_heading_line.(widths)])
+
+    table_rows
+      |> Enum.map(&Enum.join(&1, "|"))
+      |> Enum.each(&IO.puts/1)
+  end
 end

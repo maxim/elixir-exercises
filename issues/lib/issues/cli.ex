@@ -6,7 +6,9 @@ defmodule Issues.CLI do
 
   @default_count 4
 
-  def run(argv) do
+  import Issues.TableFormatter, only: [ print_table_for_columns: 2 ]
+
+  def main(argv) do
     argv
       |> parse_args
       |> process
@@ -67,10 +69,4 @@ defmodule Issues.CLI do
 
   def sort_into_ascending_order(list_of_issues),
     do: list_of_issues |> Enum.sort(&(&1["created_at"] <= &2["created_at"]))
-
-  def print_table_for_columns(list_of_issues, list_of_columns) do
-    Issues.TableFormatter.print_table_for_columns(
-      list_of_issues, list_of_columns
-    )
-  end
 end

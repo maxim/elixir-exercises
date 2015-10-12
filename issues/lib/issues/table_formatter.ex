@@ -30,11 +30,11 @@ defmodule Issues.TableFormatter do
 
   ## Example
 
-    iex> list = [ [ c1: "1", c2: "2", c3: "3" ],
-    ...>          [ c1: "4", c2: "5", c3: "6" ] ]
-    [[c1: "1", c2: "2", c3: "3"], [c1: "4", c2: "5", c3: "6"]]
-    iex> Issues.TableFormatter.transform_into_filtered_rows(list, [:c1, :c3])
-    [["c1", "c3"], ["1", "3"], ["4", "6"]]
+      iex> list = [ [ c1: "1", c2: "2", c3: "3" ],
+      ...>          [ c1: "4", c2: "5", c3: "6" ] ]
+      [[c1: "1", c2: "2", c3: "3"], [c1: "4", c2: "5", c3: "6"]]
+      iex> Issues.TableFormatter.transform_into_filtered_rows(list, [:c1, :c3])
+      [["c1", "c3"], ["1", "3"], ["4", "6"]]
   """
   def transform_into_filtered_rows(dict_rows, headers),
     do: dict_rows
@@ -48,9 +48,9 @@ defmodule Issues.TableFormatter do
   the HashDict corresponding to the given keys, ordered the same as the keys.
 
   ## Examples
-    iex> row = [{ :a, 'a' }, { :b, 'b' }, { :c, 'c' }]
-    iex> Issues.TableFormatter.extract_column_values(row, [:c, :a])
-    ['c', 'a']
+      iex> row = [{ :a, 'a' }, { :b, 'b' }, { :c, 'c' }]
+      iex> Issues.TableFormatter.extract_column_values(row, [:c, :a])
+      ['c', 'a']
   """
   def extract_column_values(hashdict_row, headers) do
     for col_name <- headers, do: hashdict_row[col_name]
@@ -61,9 +61,9 @@ defmodule Issues.TableFormatter do
   row, return a list containing the maximum width of each column.
 
   ## Example
-    iex> data = [ [ "cat", "wombat", "elk" ], [ "mongoose", "ant", "gnu" ] ]
-    iex> Issues.TableFormatter.determine_col_widths(data)
-    [8, 6, 3]
+      iex> data = [ [ "cat", "wombat", "elk" ], [ "mongoose", "ant", "gnu" ] ]
+      iex> Issues.TableFormatter.determine_col_widths(data)
+      [8, 6, 3]
   """
   def determine_col_widths(rows) do
     col_count = length(List.first(rows))
@@ -80,8 +80,8 @@ defmodule Issues.TableFormatter do
   padded (on the right) with spaces up to the corresponding width.
 
   ## Example
-    iex> Issues.TableFormatter.pad_row(["foo", "bar"], [ 10, 5 ])
-    ["foo       ", "bar  "]
+      iex> Issues.TableFormatter.pad_row(["foo", "bar"], [ 10, 5 ])
+      ["foo       ", "bar  "]
   """
   def pad_row(row, col_widths) do
     for { text, col_width } <- row |> zip(col_widths),
@@ -92,8 +92,8 @@ defmodule Issues.TableFormatter do
   Given a list and an index, find a String.length of the element at the index.
 
   ## Example
-    iex> Issues.TableFormatter.find_length_at_index(["foo", "baar"], 1)
-    4
+      iex> Issues.TableFormatter.find_length_at_index(["foo", "baar"], 1)
+      4
   """
   def find_length_at_index(list, index),
     do: at(list, index) |> to_string |> String.length
@@ -103,8 +103,8 @@ defmodule Issues.TableFormatter do
   hyphens, with + signs where the vertical bar between the column goes.
 
   ## Example
-    iex> Issues.TableFormatter.generate_separator([5, 6, 9])
-    "------+--------+----------"
+      iex> Issues.TableFormatter.generate_separator([5, 6, 9])
+      "------+--------+----------"
   """
   def generate_separator(col_widths),
     do: map_join(col_widths, "-+-", &String.duplicate("-", &1))

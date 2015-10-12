@@ -4,6 +4,8 @@ defmodule Issues.Mixfile do
   def project do
     [app: :issues,
      version: "0.0.1",
+     name: "Issues",
+     source_url: "https://github.com/maxim/elixir-exercises/tree/master/issues",
      elixir: "~> 1.1",
      escript: escript_config,
      build_embedded: Mix.env == :prod,
@@ -29,8 +31,10 @@ defmodule Issues.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      { :httpoison, "~> 0.7.2" },
-      { :jsx,       "~> 2.8.0" }
+      { :httpoison, "~> 0.7.2"  },
+      { :jsx,       "~> 2.8.0"  },
+      { :ex_doc,    "~> 0.10.0" },
+      { :earmark,   "~> 0.1.17" }
     ]
   end
 

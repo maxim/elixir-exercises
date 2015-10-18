@@ -31,7 +31,7 @@ defmodule Stack.Server do
     { :noreply, { [ value | stack ], stack_pid } }
   end
 
-  def terminate(reason, { stack, stack_pid }) do
+  def terminate(_reason, { stack, stack_pid }) do
     Stack.Stack.save_stack stack_pid, stack
   end
 end

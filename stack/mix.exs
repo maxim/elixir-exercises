@@ -14,7 +14,8 @@ defmodule Stack.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger],
+     mod: {Stack, []}]
   end
 
   # Dependencies can be Hex packages:
